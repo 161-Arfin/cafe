@@ -1,78 +1,72 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import Head from "next/head";
+import { MainLayout } from "@/components/layout/MainLayout";
+import { GallerySection } from "@/components/sections/GallerySection";
+import { HeroSection } from "@/components/sections/HeroSection";
+import { LocationSection } from "@/components/sections/LocationSection";
+import { MenuSection } from "@/components/sections/MenuSection";
+import { StorySection } from "@/components/sections/StorySection";
+import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
+import { ExperienceSection } from "@/components/sections/ExperienceSection";
+import { siteConfig } from "@/config/site";
+import { business } from "@/data/business";
 
 export default function Home() {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  const socialImage = siteUrl ? `${siteUrl}${siteConfig.images.hero}` : undefined;
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "CafeOrCoffeeShop",
+    name: "LYON’S Café & Co-Working Space",
+    description: siteConfig.description,
+    ...(siteUrl ? { url: siteUrl, image: socialImage } : {}),
+    telephone: "+62 822-8998-7300",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Sleman",
+      addressRegion: "Daerah Istimewa Yogyakarta",
+      addressCountry: "ID",
+    },
+    openingHoursSpecification: [{
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      opens: "00:00",
+      closes: "23:59",
+    }],
+    hasMap: business.mapsUrl,
+  };
+
   return (
-    <div
-      className={`${geistSans.className} ${geistMono.className} flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black`}
-    >
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the index.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs/pages/getting-started?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <>
+      <Head>
+        <title>{siteConfig.title}</title>
+        <meta name="description" content={siteConfig.description} />
+        <meta name="keywords" content={siteConfig.keywords.join(", ")} />
+        <meta name="robots" content="index, follow, max-image-preview:large" />
+        <meta name="theme-color" content="#351713" />
+        {siteUrl && <link rel="canonical" href={siteUrl} />}
+        <meta property="og:title" content={siteConfig.title} />
+        <meta property="og:description" content={siteConfig.description} />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="id_ID" />
+        <meta property="og:site_name" content="LYON’S Café & Co-Working Space" />
+        {siteUrl && <meta property="og:url" content={siteUrl} />}
+        {socialImage && <meta property="og:image" content={socialImage} />}
+        {socialImage && <meta property="og:image:alt" content="Suasana LYON’S Café & Co-Working Space di Sleman" />}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={siteConfig.title} />
+        <meta name="twitter:description" content={siteConfig.description} />
+        {socialImage && <meta name="twitter:image" content={socialImage} />}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      </Head>
+      <MainLayout>
+        <HeroSection />
+        <StorySection />
+        <ExperienceSection />
+        <MenuSection />
+        <GallerySection />
+        <TestimonialsSection />
+        <LocationSection />
+      </MainLayout>
+    </>
   );
 }
