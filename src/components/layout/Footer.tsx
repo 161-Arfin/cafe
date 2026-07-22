@@ -43,9 +43,12 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-9 flex flex-col gap-2 border-t border-white/10 pt-5 text-[10px] text-white/40 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} LYON’S Café &amp; Co-Working Space.</p>
-          <p>Buka 24 jam · Monjali, Sleman</p>
+        <div className="mt-9 border-t border-white/10 pt-5">
+          <p className="text-[10px] font-medium leading-5 text-white/60">Website Concept for Demonstration Purposes. Not an official Lyon&apos;s Cafe website.</p>
+          <div className="mt-2 flex flex-col gap-2 text-[10px] text-white/40 sm:flex-row sm:items-center sm:justify-between">
+            <p>© {new Date().getFullYear()} LYON’S Café &amp; Co-Working Space.</p>
+            <p>Buka 24 jam · Monjali, Sleman</p>
+          </div>
         </div>
       </Container>
     </footer>
